@@ -1,4 +1,3 @@
-README.md
 # 🚀 THE HARDOI STORE - Complete E-Commerce Website
 
 A modern, fully responsive shopping website built using HTML, CSS, JavaScript and Firebase. Deployed on Vercel.
