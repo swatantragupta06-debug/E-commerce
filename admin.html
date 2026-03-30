@@ -1,0 +1,111 @@
+admin.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - THE HARDOI STORE</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="admin-page">
+
+    <!-- NAVBAR -->
+    <nav class="admin-navbar">
+        <div class="nav-container">
+            <h2>THE HARDOI STORE - Admin</h2>
+            <button id="adminLogoutBtn" class="logout-btn">Logout</button>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+
+        <!-- PRODUCTS -->
+        <div class="admin-section">
+            <h2>Manage Products</h2>
+
+            <form id="addProductForm" class="admin-form">
+                <input type="text" id="productName" placeholder="Product Name" required>
+                <input type="number" id="productPrice" placeholder="Price (₹)" required>
+
+                <!-- 🔥 FIX: Use IMAGE URL instead of file (Vercel friendly) -->
+                <input type="text" id="productImage" placeholder="Image URL (paste link)" required>
+
+                <textarea id="productDesc" placeholder="Description"></textarea>
+
+                <button type="submit">Add Product</button>
+            </form>
+
+            <div id="productsList" class="admin-list"></div>
+        </div>
+
+        <!-- ORDERS -->
+        <div class="admin-section">
+            <h2>Manage Orders</h2>
+            <div id="adminOrdersList" class="admin-list"></div>
+        </div>
+
+    </div>
+
+    <!-- EDIT PRODUCT MODAL -->
+    <div id="editProductModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeEditModal">&times;</span>
+
+            <form id="editProductForm">
+                <input type="hidden" id="editProductId">
+
+                <input type="text" id="editProductName" placeholder="Product Name" required>
+                <input type="number" id="editProductPrice" placeholder="Price (₹)" required>
+
+                <!-- 🔥 FIX: Image URL -->
+                <input type="text" id="editProductImage" placeholder="Image URL">
+
+                <textarea id="editProductDesc" placeholder="Description"></textarea>
+
+                <button type="submit">Update Product</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 🔐 ADMIN SECURITY SCRIPT -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyBp7WnJsnKC7MvYygSn9xgUA627CsZS0Yc",
+          authDomain: "my-shopping-site-f801f.firebaseapp.com",
+          projectId: "my-shopping-site-f801f",
+          storageBucket: "my-shopping-site-f801f.firebasestorage.app",
+          messagingSenderId: "818044215511",
+          appId: "1:818044215511:web:108425d16b36a4e9ab1092"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        const ADMIN_EMAIL = "swatantragupta06@gmail.com";
+
+        // 🔒 PROTECT ADMIN PAGE
+        onAuthStateChanged(auth, (user) => {
+            if (!user || user.email !== ADMIN_EMAIL) {
+                alert("Access Denied");
+                window.location.href = "login.html";
+            }
+        });
+
+        // 🚪 LOGOUT
+        document.getElementById("adminLogoutBtn").addEventListener("click", async () => {
+            await signOut(auth);
+            window.location.href = "login.html";
+        });
+    </script>
+
+    <!-- MAIN SCRIPT -->
+    <script type="module" src="script.js"></script>
+
+</body>
+  </html>
