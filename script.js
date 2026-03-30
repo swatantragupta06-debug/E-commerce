@@ -1,4 +1,3 @@
-script.js
 import {
   auth, db, isAdmin,
   createUserWithEmailAndPassword,
