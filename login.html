@@ -1,0 +1,191 @@
+login.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - THE HARDOI STORE</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="login-page">
+
+<div class="login-container">
+    <div class="login-card">
+
+        <div class="logo">
+            <h2>THE HARDOI STORE</h2>
+        </div>
+
+        <!-- CUSTOMER LOGIN -->
+        <div id="loginFormContainer">
+            <h3>Customer Login</h3>
+
+            <form id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Email" required>
+                <input type="password" id="loginPassword" placeholder="Password" required>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+
+            <div class="signup-link">
+                <p>Don't have an account? 
+                    <a href="#" id="showSignup">Sign Up</a>
+                </p>
+            </div>
+
+            <div class="admin-switch">
+                <p>
+                    <a href="#" id="showAdminLogin">Admin Login</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- SIGNUP -->
+        <div id="signupFormContainer" style="display:none;">
+            <h3>Sign Up</h3>
+
+            <form id="signupForm">
+                <input type="text" id="signupName" placeholder="Full Name" required>
+                <input type="email" id="signupEmail" placeholder="Email" required>
+                <input type="password" id="signupPassword" placeholder="Password (min 6 characters)" required minlength="6">
+                <button type="submit" class="login-btn">Sign Up</button>
+            </form>
+
+            <div class="login-link">
+                <p>Already have an account? 
+                    <a href="#" id="showLogin">Login</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- ADMIN LOGIN -->
+        <div id="adminLoginContainer" style="display:none;">
+            <h3>Admin Login</h3>
+
+            <form id="adminLoginForm">
+                <input type="email" id="adminEmail" placeholder="Admin Email" required>
+                <input type="password" id="adminPassword" placeholder="Admin Password" required>
+                <button type="submit" class="admin-login-btn">Login as Admin</button>
+            </form>
+
+            <div class="login-link">
+                <p>
+                    <a href="#" id="backToUserLogin">Back to Customer Login</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- ERROR -->
+        <div id="errorMessage" class="error-message" style="display:none;"></div>
+
+    </div>
+</div>
+
+<!-- 🔥 FULL WORKING SCRIPT -->
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+
+// 🔥 YOUR FIREBASE CONFIG (ALREADY ADDED)
+const firebaseConfig = {
+  apiKey: "AIzaSyBp7WnJsnKC7MvYygSn9xgUA627CsZS0Yc",
+  authDomain: "my-shopping-site-f801f.firebaseapp.com",
+  projectId: "my-shopping-site-f801f",
+  storageBucket: "my-shopping-site-f801f.firebasestorage.app",
+  messagingSenderId: "818044215511",
+  appId: "1:818044215511:web:108425d16b36a4e9ab1092"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// ADMIN DETAILS
+const ADMIN_EMAIL = "swatantragupta06@gmail.com";
+const ADMIN_PASSWORD = "Swatantra@9935";
+
+// TOGGLE FORMS
+const loginFormContainer = document.getElementById("loginFormContainer");
+const signupFormContainer = document.getElementById("signupFormContainer");
+const adminLoginContainer = document.getElementById("adminLoginContainer");
+
+document.getElementById("showSignup").onclick = () => {
+    loginFormContainer.style.display = "none";
+    signupFormContainer.style.display = "block";
+};
+
+document.getElementById("showLogin").onclick = () => {
+    signupFormContainer.style.display = "none";
+    loginFormContainer.style.display = "block";
+};
+
+document.getElementById("showAdminLogin").onclick = () => {
+    loginFormContainer.style.display = "none";
+    adminLoginContainer.style.display = "block";
+};
+
+document.getElementById("backToUserLogin").onclick = () => {
+    adminLoginContainer.style.display = "none";
+    loginFormContainer.style.display = "block";
+};
+
+// ERROR FUNCTION
+function showError(msg) {
+    const errorDiv = document.getElementById("errorMessage");
+    errorDiv.innerText = msg;
+    errorDiv.style.display = "block";
+}
+
+// SIGNUP
+document.getElementById("signupForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("signupEmail").value;
+    const password = document.getElementById("signupPassword").value;
+
+    try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        alert("Signup successful!");
+        window.location.href = "index.html";
+    } catch (error) {
+        showError(error.message);
+    }
+});
+
+// LOGIN
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
+
+    try {
+        await signInWithEmailAndPassword(auth, email, password);
+        alert("Login successful!");
+        window.location.href = "index.html";
+    } catch (error) {
+        showError("Invalid email or password");
+    }
+});
+
+// ADMIN LOGIN
+document.getElementById("adminLoginForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("adminEmail").value;
+    const password = document.getElementById("adminPassword").value;
+
+    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+        alert("Admin Login Successful");
+        window.location.href = "admin.html";
+    } else {
+        showError("Access Denied");
+    }
+});
+
+</script>
+
+</body>
+              </html>
