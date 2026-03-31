@@ -3,22 +3,19 @@
 <head>
     <meta charset="UTF-8">
 
-    <!-- ✅ MOBILE -->
+    <!-- MOBILE -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- ✅ SEO -->
+    <!-- SEO -->
     <meta name="description" content="Login to THE HARDOI STORE - Fast shopping in Hardoi">
     <meta name="keywords" content="Hardoi login, shopping Hardoi, THE HARDOI STORE login">
 
-    <!-- ✅ GOOGLE VERIFICATION -->
+    <!-- GOOGLE VERIFICATION -->
     <meta name="google-site-verification" content="vMgwqCstE6HX16VuAHh2bEywRmITYN5LEx3KHmPw7Ls" />
 
     <title>Login - THE HARDOI STORE</title>
 
-    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
-
-    <!-- Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 
@@ -27,86 +24,38 @@
 <div class="login-container">
     <div class="login-card">
 
-        <div class="logo">
-            <h2>THE HARDOI STORE</h2>
-        </div>
+        <h2>THE HARDOI STORE</h2>
 
-        <!-- CUSTOMER LOGIN -->
-        <div id="loginFormContainer">
-            <h3>Customer Login</h3>
+        <!-- LOGIN -->
+        <form id="loginForm">
+            <input type="email" id="loginEmail" placeholder="Email" required>
+            <input type="password" id="loginPassword" placeholder="Password" required>
+            <button type="submit" class="login-btn">Login</button>
+        </form>
 
-            <form id="loginForm">
-                <input type="email" id="loginEmail" placeholder="Email" required>
-                <input type="password" id="loginPassword" placeholder="Password" required>
-                <button type="submit" class="login-btn">Login</button>
-            </form>
-
-            <!-- GOOGLE LOGIN -->
-            <button id="googleLogin" class="login-btn" style="margin-top:10px; background:#db4437;">
-                <i class="fab fa-google"></i> Continue with Google
-            </button>
-
-            <div class="signup-link">
-                <p>Don't have an account? 
-                    <a href="#" id="showSignup">Sign Up</a>
-                </p>
-            </div>
-
-            <div class="admin-switch">
-                <p>
-                    <a href="#" id="showAdminLogin">Admin Login</a>
-                </p>
-            </div>
-        </div>
-
-        <!-- SIGNUP -->
-        <div id="signupFormContainer" style="display:none;">
-            <h3>Sign Up</h3>
-
-            <form id="signupForm">
-                <input type="text" id="signupName" placeholder="Full Name" required>
-                <input type="email" id="signupEmail" placeholder="Email" required>
-                <input type="password" id="signupPassword" placeholder="Password (min 6 characters)" required minlength="6">
-                <button type="submit" class="login-btn">Sign Up</button>
-            </form>
-
-            <div class="login-link">
-                <p>Already have an account? 
-                    <a href="#" id="showLogin">Login</a>
-                </p>
-            </div>
-        </div>
+        <!-- GOOGLE LOGIN -->
+        <button id="googleLogin" class="login-btn" style="margin-top:10px; background:#db4437;">
+            <i class="fab fa-google"></i> Continue with Google
+        </button>
 
         <!-- ADMIN LOGIN -->
-        <div id="adminLoginContainer" style="display:none;">
-            <h3>Admin Login</h3>
+        <h3 style="margin-top:20px;">Admin Login</h3>
+        <form id="adminLoginForm">
+            <input type="email" id="adminEmail" placeholder="Admin Email" required>
+            <input type="password" id="adminPassword" placeholder="Admin Password" required>
+            <button type="submit" class="admin-login-btn">Login as Admin</button>
+        </form>
 
-            <form id="adminLoginForm">
-                <input type="email" id="adminEmail" placeholder="Admin Email" required>
-                <input type="password" id="adminPassword" placeholder="Admin Password" required>
-                <button type="submit" class="admin-login-btn">Login as Admin</button>
-            </form>
-
-            <div class="login-link">
-                <p>
-                    <a href="#" id="backToUserLogin">Back to Customer Login</a>
-                </p>
-            </div>
-        </div>
-
-        <!-- ERROR -->
         <div id="errorMessage" class="error-message" style="display:none;"></div>
 
     </div>
 </div>
 
-<!-- SCRIPT -->
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
 import { 
   getAuth, 
-  createUserWithEmailAndPassword, 
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup
@@ -125,61 +74,23 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// ADMIN
+// ADMIN DETAILS
 const ADMIN_EMAIL = "swatantragupta06@gmail.com";
 const ADMIN_PASSWORD = "Swatantra@9935";
 
-// TOGGLE
-const loginFormContainer = document.getElementById("loginFormContainer");
-const signupFormContainer = document.getElementById("signupFormContainer");
-const adminLoginContainer = document.getElementById("adminLoginContainer");
-
-document.getElementById("showSignup").onclick = () => {
-    loginFormContainer.style.display = "none";
-    signupFormContainer.style.display = "block";
-};
-
-document.getElementById("showLogin").onclick = () => {
-    signupFormContainer.style.display = "none";
-    loginFormContainer.style.display = "block";
-};
-
-document.getElementById("showAdminLogin").onclick = () => {
-    loginFormContainer.style.display = "none";
-    adminLoginContainer.style.display = "block";
-};
-
-document.getElementById("backToUserLogin").onclick = () => {
-    adminLoginContainer.style.display = "none";
-    loginFormContainer.style.display = "block";
-};
-
-// ERROR
+// ERROR FUNCTION
 function showError(msg) {
     const errorDiv = document.getElementById("errorMessage");
     errorDiv.innerText = msg;
     errorDiv.style.display = "block";
 }
 
-// SIGNUP
-document.getElementById("signupForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    try {
-        await createUserWithEmailAndPassword(auth, signupEmail.value, signupPassword.value);
-        alert("Signup successful!");
-        window.location.href = "index.html";
-    } catch (error) {
-        showError(error.message);
-    }
-});
-
-// LOGIN
+// CUSTOMER LOGIN
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
-
     try {
         await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value);
+        localStorage.removeItem("isAdmin"); // normal user
         window.location.href = "index.html";
     } catch {
         showError("Invalid email or password");
@@ -188,21 +99,22 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 
 // GOOGLE LOGIN
 const provider = new GoogleAuthProvider();
-
 document.getElementById("googleLogin").addEventListener("click", async () => {
     try {
         await signInWithPopup(auth, provider);
+        localStorage.removeItem("isAdmin");
         window.location.href = "index.html";
     } catch {
         showError("Google login failed");
     }
 });
 
-// ADMIN LOGIN
+// ADMIN LOGIN (MAIN FIX 🔥)
 document.getElementById("adminLoginForm").addEventListener("submit", (e) => {
     e.preventDefault();
 
     if (adminEmail.value === ADMIN_EMAIL && adminPassword.value === ADMIN_PASSWORD) {
+        localStorage.setItem("isAdmin", "true"); // ✅ SAVE ADMIN
         window.location.href = "admin.html";
     } else {
         showError("Access Denied");
