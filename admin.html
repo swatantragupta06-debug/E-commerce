@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
 
-    <!-- ✅ MOBILE FIX -->
+    <!-- MOBILE -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- ✅ SEO -->
+    <!-- SEO -->
     <meta name="description" content="Admin Dashboard - THE HARDOI STORE manage products and orders">
     <meta name="keywords" content="Hardoi admin, manage store Hardoi, THE HARDOI STORE admin">
 
-    <!-- ✅ GOOGLE VERIFICATION -->
+    <!-- GOOGLE VERIFICATION -->
     <meta name="google-site-verification" content="vMgwqCstE6HX16VuAHh2bEywRmITYN5LEx3KHmPw7Ls" />
 
     <title>Admin Dashboard - THE HARDOI STORE</title>
@@ -80,36 +80,17 @@
         </div>
     </div>
 
-    <!-- 🔐 ADMIN SECURITY SCRIPT -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
-
-        const firebaseConfig = {
-          apiKey: "AIzaSyBp7WnJsnKC7MvYygSn9xgUA627CsZS0Yc",
-          authDomain: "my-shopping-site-f801f.firebaseapp.com",
-          projectId: "my-shopping-site-f801f",
-          storageBucket: "my-shopping-site-f801f.firebasestorage.app",
-          messagingSenderId: "818044215511",
-          appId: "1:818044215511:web:108425d16b36a4e9ab1092"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        const ADMIN_EMAIL = "swatantragupta06@gmail.com";
-
-        // 🔒 PROTECT ADMIN PAGE
-        onAuthStateChanged(auth, (user) => {
-            if (!user || user.email !== ADMIN_EMAIL) {
-                alert("Access Denied");
-                window.location.href = "login.html";
-            }
-        });
+    <!-- 🔥 FIXED ADMIN SECURITY -->
+    <script>
+        // ✅ SIMPLE & WORKING ADMIN CHECK
+        if (localStorage.getItem("isAdmin") !== "true") {
+            alert("Access Denied");
+            window.location.href = "login.html";
+        }
 
         // 🚪 LOGOUT
-        document.getElementById("adminLogoutBtn").addEventListener("click", async () => {
-            await signOut(auth);
+        document.getElementById("adminLogoutBtn").addEventListener("click", () => {
+            localStorage.removeItem("isAdmin"); // remove admin access
             window.location.href = "login.html";
         });
     </script>
