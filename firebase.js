@@ -25,7 +25,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
 
-// 🔥 YOUR REAL FIREBASE CONFIG
+// 🔥 FIREBASE CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyBp7WnJsnKC7MvYygSn9xgUA627CsZS0Yc",
   authDomain: "my-shopping-site-f801f.firebaseapp.com",
@@ -36,21 +36,26 @@ const firebaseConfig = {
 };
 
 
-// 🚀 INITIALIZE
+// 🚀 INITIALIZE APP
 const app = initializeApp(firebaseConfig);
 
 // 🔐 SERVICES
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// 🔐 ADMIN CHECK
+// 🔐 ADMIN EMAIL
 const ADMIN_EMAIL = "swatantragupta06@gmail.com";
 
+// 🔥 FIXED ADMIN CHECK (NO BUGS)
 function isAdmin(user) {
-  return user && user.email === ADMIN_EMAIL;
+  if (!user || !user.email) return false;
+
+  const email = user.email.trim().toLowerCase();
+  return email === ADMIN_EMAIL;
 }
 
-// 📦 EXPORT EVERYTHING
+
+// 📦 EXPORTS
 export {
   auth,
   db,
