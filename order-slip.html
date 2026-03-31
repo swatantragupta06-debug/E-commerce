@@ -2,10 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
+    <!-- ✅ MOBILE FIX -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ✅ SEO -->
+    <meta name="description" content="Order Slip - THE HARDOI STORE | Fast Delivery in Hardoi">
+    <meta name="keywords" content="Hardoi order slip, delivery slip Hardoi, THE HARDOI STORE order">
+
     <title>Order Slip - THE HARDOI STORE</title>
 
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
     <style>
@@ -51,7 +61,7 @@
     </div>
 </div>
 
-<!-- 🔥 FULL WORKING SCRIPT -->
+<!-- 🔥 SCRIPT -->
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
@@ -70,7 +80,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 📦 GET ORDER ID FROM URL
+// GET ORDER ID FROM URL
 const params = new URLSearchParams(window.location.search);
 const orderId = params.get("id");
 
@@ -123,4 +133,4 @@ loadOrder();
 </script>
 
 </body>
-  </html>
+</html>
