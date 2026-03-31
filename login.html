@@ -10,6 +10,9 @@
     <meta name="description" content="Login to THE HARDOI STORE - Fast shopping in Hardoi">
     <meta name="keywords" content="Hardoi login, shopping Hardoi, THE HARDOI STORE login">
 
+    <!-- ✅ GOOGLE VERIFICATION -->
+    <meta name="google-site-verification" content="vMgwqCstE6HX16VuAHh2bEywRmITYN5LEx3KHmPw7Ls" />
+
     <title>Login - THE HARDOI STORE</title>
 
     <!-- CSS -->
@@ -38,7 +41,7 @@
                 <button type="submit" class="login-btn">Login</button>
             </form>
 
-            <!-- 🔥 GOOGLE LOGIN BUTTON -->
+            <!-- GOOGLE LOGIN -->
             <button id="googleLogin" class="login-btn" style="margin-top:10px; background:#db4437;">
                 <i class="fab fa-google"></i> Continue with Google
             </button>
@@ -97,7 +100,7 @@
     </div>
 </div>
 
-<!-- 🔥 FULL SCRIPT -->
+<!-- SCRIPT -->
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
@@ -183,7 +186,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     }
 });
 
-// 🔥 GOOGLE LOGIN
+// GOOGLE LOGIN
 const provider = new GoogleAuthProvider();
 
 document.getElementById("googleLogin").addEventListener("click", async () => {
