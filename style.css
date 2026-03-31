@@ -23,7 +23,7 @@ body {
     position: fixed;
     width: 100%;
     top: 0;
-    background: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.95);
     backdrop-filter: blur(15px);
     box-shadow: 0 2px 20px rgba(0,0,0,0.1);
     z-index: 1000;
@@ -34,6 +34,7 @@ body {
     justify-content: space-between;
     align-items: center;
     height: 70px;
+    padding: 0 15px;
 }
 
 .logo h2 {
@@ -43,11 +44,19 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
+/* 🔥 MOBILE MENU ICON */
+.menu-toggle {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
 /* NAV LINKS */
 .nav-links {
     display: flex;
     gap: 15px;
     align-items: center;
+    transition: 0.3s ease;
 }
 
 .nav-link {
@@ -61,7 +70,7 @@ body {
     color: #667eea;
 }
 
-/* BUTTONS */
+/* ================= BUTTONS ================= */
 .login-btn, .logout-btn, .admin-login-btn {
     padding: 10px 18px;
     border-radius: 25px;
@@ -117,6 +126,7 @@ body {
     color: white;
     background: linear-gradient(135deg,#667eea,#764ba2);
     animation: fadeIn 1s ease;
+    padding: 20px;
 }
 
 .hero h1 {
@@ -310,16 +320,34 @@ body {
 /* ================= MOBILE ================= */
 @media(max-width:768px){
 
+    .menu-toggle {
+        display: block;
+    }
+
     .nav-links {
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 100%;
+        background: white;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
         display: none;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .nav-links.active {
+        display: flex;
+        animation: slideDown 0.3s ease;
+    }
+
+    .search-box {
+        width: 100%;
     }
 
     .hero h1 {
         font-size: 2rem;
-    }
-
-    .search-box {
-        width: 150px;
     }
 
     .admin-container {
@@ -329,4 +357,4 @@ body {
     .products-grid {
         grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
     }
-}
+        }
