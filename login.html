@@ -2,10 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
+    <!-- ✅ MOBILE -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ✅ SEO -->
+    <meta name="description" content="Login to THE HARDOI STORE - Fast shopping in Hardoi">
+    <meta name="keywords" content="Hardoi login, shopping Hardoi, THE HARDOI STORE login">
+
     <title>Login - THE HARDOI STORE</title>
 
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 
@@ -27,6 +37,11 @@
                 <input type="password" id="loginPassword" placeholder="Password" required>
                 <button type="submit" class="login-btn">Login</button>
             </form>
+
+            <!-- 🔥 GOOGLE LOGIN BUTTON -->
+            <button id="googleLogin" class="login-btn" style="margin-top:10px; background:#db4437;">
+                <i class="fab fa-google"></i> Continue with Google
+            </button>
 
             <div class="signup-link">
                 <p>Don't have an account? 
@@ -82,13 +97,19 @@
     </div>
 </div>
 
-<!-- 🔥 FULL WORKING SCRIPT -->
+<!-- 🔥 FULL SCRIPT -->
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
 
-// 🔥 YOUR FIREBASE CONFIG (ALREADY ADDED)
+// FIREBASE CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyBp7WnJsnKC7MvYygSn9xgUA627CsZS0Yc",
   authDomain: "my-shopping-site-f801f.firebaseapp.com",
@@ -101,11 +122,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// ADMIN DETAILS
+// ADMIN
 const ADMIN_EMAIL = "swatantragupta06@gmail.com";
 const ADMIN_PASSWORD = "Swatantra@9935";
 
-// TOGGLE FORMS
+// TOGGLE
 const loginFormContainer = document.getElementById("loginFormContainer");
 const signupFormContainer = document.getElementById("signupFormContainer");
 const adminLoginContainer = document.getElementById("adminLoginContainer");
@@ -130,7 +151,7 @@ document.getElementById("backToUserLogin").onclick = () => {
     loginFormContainer.style.display = "block";
 };
 
-// ERROR FUNCTION
+// ERROR
 function showError(msg) {
     const errorDiv = document.getElementById("errorMessage");
     errorDiv.innerText = msg;
@@ -141,11 +162,8 @@ function showError(msg) {
 document.getElementById("signupForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const email = document.getElementById("signupEmail").value;
-    const password = document.getElementById("signupPassword").value;
-
     try {
-        await createUserWithEmailAndPassword(auth, email, password);
+        await createUserWithEmailAndPassword(auth, signupEmail.value, signupPassword.value);
         alert("Signup successful!");
         window.location.href = "index.html";
     } catch (error) {
@@ -157,15 +175,23 @@ document.getElementById("signupForm").addEventListener("submit", async (e) => {
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const email = document.getElementById("loginEmail").value;
-    const password = document.getElementById("loginPassword").value;
-
     try {
-        await signInWithEmailAndPassword(auth, email, password);
-        alert("Login successful!");
+        await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value);
         window.location.href = "index.html";
-    } catch (error) {
+    } catch {
         showError("Invalid email or password");
+    }
+});
+
+// 🔥 GOOGLE LOGIN
+const provider = new GoogleAuthProvider();
+
+document.getElementById("googleLogin").addEventListener("click", async () => {
+    try {
+        await signInWithPopup(auth, provider);
+        window.location.href = "index.html";
+    } catch {
+        showError("Google login failed");
     }
 });
 
@@ -173,11 +199,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 document.getElementById("adminLoginForm").addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const email = document.getElementById("adminEmail").value;
-    const password = document.getElementById("adminPassword").value;
-
-    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-        alert("Admin Login Successful");
+    if (adminEmail.value === ADMIN_EMAIL && adminPassword.value === ADMIN_PASSWORD) {
         window.location.href = "admin.html";
     } else {
         showError("Access Denied");
@@ -187,4 +209,4 @@ document.getElementById("adminLoginForm").addEventListener("submit", (e) => {
 </script>
 
 </body>
-              </html>
+</html>
