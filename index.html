@@ -3,145 +3,160 @@
 <head>
     <meta charset="UTF-8">
 
-    <!-- ✅ GOOGLE VERIFICATION -->
+    <!-- GOOGLE VERIFICATION -->
     <meta name="google-site-verification" content="vMgwqCstE6HX16VuAHh2bEywRmITYN5LEx3KHmPw7Ls" />
 
-    <!-- ✅ MOBILE FIX -->
+    <!-- MOBILE -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- ✅ SEO -->
+    <!-- SEO -->
     <meta name="description" content="THE HARDOI STORE - Best shopping in Hardoi with fast delivery">
     <meta name="keywords" content="Hardoi store, shopping Hardoi, online store Hardoi">
 
     <title>THE HARDOI STORE - Best Shopping in Hardoi</title>
 
-    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
-
-    <!-- Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
 
-    <!-- Floating Banner -->
-    <div id="promoBanner" class="promo-banner">
-        <div class="banner-content">
-            <i class="fas fa-truck"></i>
-            <span>Free Delivery on First Order 🎉</span>
-            <button id="closeBanner" class="close-btn">&times;</button>
-        </div>
+<!-- FLOATING BANNER -->
+<div id="promoBanner" class="promo-banner">
+    <div class="banner-content">
+        <i class="fas fa-truck"></i>
+        <span>Free Delivery on First Order 🎉</span>
+        <button id="closeBanner" class="close-btn">&times;</button>
     </div>
+</div>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="nav-container">
+<!-- 🔥 NAVBAR -->
+<nav class="navbar">
+    <div class="nav-container">
 
-            <div class="logo">
-                <h2>THE HARDOI STORE</h2>
+        <!-- LOGO -->
+        <div class="logo">
+            <h2>THE HARDOI STORE</h2>
+        </div>
+
+        <!-- ☰ MENU BUTTON -->
+        <div class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </div>
+
+        <!-- NAV LINKS -->
+        <div class="nav-links" id="navLinks">
+
+            <!-- SEARCH -->
+            <div class="search-box">
+                <input type="text" id="searchBar" placeholder="Search products...">
             </div>
 
-            <div class="nav-links">
+            <a href="index.html" class="nav-link active">Home</a>
+            <a href="#" id="ordersLink" class="nav-link" style="display:none;">My Orders</a>
+            <a href="#" id="reviewsLink" class="nav-link" style="display:none;">Reviews</a>
 
-                <!-- SEARCH BAR -->
-                <div class="search-box">
-                    <input type="text" id="searchBar" placeholder="Search products...">
-                </div>
+            <button id="loginBtn" class="login-btn">Login</button>
+            <button id="logoutBtn" class="logout-btn" style="display:none;">Logout</button>
 
-                <a href="index.html" class="nav-link active">Home</a>
-                <a href="#" id="ordersLink" class="nav-link" style="display:none;">My Orders</a>
-                <a href="#" id="reviewsLink" class="nav-link" style="display:none;">Reviews</a>
+        </div>
 
-                <button id="loginBtn" class="login-btn">Login</button>
-                <button id="logoutBtn" class="logout-btn" style="display:none;">Logout</button>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Welcome to THE HARDOI STORE</h1>
+        <p>Best quality products with fast delivery in Hardoi</p>
+        <button class="cta-btn" id="shopNowBtn">Shop Now</button>
+    </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products-section">
+    <div class="container">
+        <h2>Featured Products</h2>
+        <div id="productsContainer" class="products-grid"></div>
+    </div>
+</section>
+
+<!-- ORDERS -->
+<section id="ordersSection" class="orders-section" style="display:none;">
+    <div class="container">
+        <h2>My Orders</h2>
+        <div id="ordersContainer" class="orders-grid"></div>
+    </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviewsSection" class="reviews-section" style="display:none;">
+    <div class="container">
+        <h2>Customer Reviews</h2>
+        <div id="reviewsContainer" class="reviews-grid"></div>
+    </div>
+</section>
+
+<!-- ORDER MODAL -->
+<div id="orderModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeOrderModal">&times;</span>
+        <h2>Place Order</h2>
+
+        <form id="orderForm">
+            <input type="text" id="customerName" placeholder="Full Name" required>
+            <input type="tel" id="customerPhone" placeholder="Phone (10 digits)" maxlength="10" required>
+            <input type="text" id="customerAddress" placeholder="Full Address" required>
+            <input type="text" id="customerCity" placeholder="City (Only Hardoi)" required>
+
+            <div id="deliveryCharge" class="delivery-info"></div>
+
+            <input type="hidden" id="selectedProductId">
+            <input type="hidden" id="selectedProductName">
+            <input type="hidden" id="selectedProductPrice">
+
+            <button type="submit" class="order-btn">Place Order - Cash on Delivery</button>
+        </form>
+    </div>
+</div>
+
+<!-- REVIEW MODAL -->
+<div id="reviewModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeReviewModal">&times;</span>
+        <h2>Write Review</h2>
+
+        <form id="reviewForm">
+            <input type="hidden" id="reviewOrderId">
+
+            <div class="rating" id="ratingStars">
+                <i class="fas fa-star" data-rating="1"></i>
+                <i class="fas fa-star" data-rating="2"></i>
+                <i class="fas fa-star" data-rating="3"></i>
+                <i class="fas fa-star" data-rating="4"></i>
+                <i class="fas fa-star" data-rating="5"></i>
             </div>
 
-        </div>
-    </nav>
+            <textarea id="reviewText" placeholder="Share your experience..." required></textarea>
 
-    <!-- HERO -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Welcome to THE HARDOI STORE</h1>
-            <p>Best quality products with fast delivery in Hardoi</p>
-            <button class="cta-btn" id="shopNowBtn">Shop Now</button>
-        </div>
-    </section>
-
-    <!-- PRODUCTS -->
-    <section class="products-section">
-        <div class="container">
-            <h2>Featured Products</h2>
-            <div id="productsContainer" class="products-grid"></div>
-        </div>
-    </section>
-
-    <!-- ORDERS -->
-    <section id="ordersSection" class="orders-section" style="display:none;">
-        <div class="container">
-            <h2>My Orders</h2>
-            <div id="ordersContainer" class="orders-grid"></div>
-        </div>
-    </section>
-
-    <!-- REVIEWS -->
-    <section id="reviewsSection" class="reviews-section" style="display:none;">
-        <div class="container">
-            <h2>Customer Reviews</h2>
-            <div id="reviewsContainer" class="reviews-grid"></div>
-        </div>
-    </section>
-
-    <!-- ORDER MODAL -->
-    <div id="orderModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeOrderModal">&times;</span>
-            <h2>Place Order</h2>
-
-            <form id="orderForm">
-                <input type="text" id="customerName" placeholder="Full Name" required>
-                <input type="tel" id="customerPhone" placeholder="Phone (10 digits)" maxlength="10" required>
-                <input type="text" id="customerAddress" placeholder="Full Address" required>
-                <input type="text" id="customerCity" placeholder="City (Only Hardoi)" required>
-
-                <div id="deliveryCharge" class="delivery-info"></div>
-
-                <input type="hidden" id="selectedProductId">
-                <input type="hidden" id="selectedProductName">
-                <input type="hidden" id="selectedProductPrice">
-
-                <button type="submit" class="order-btn">Place Order - Cash on Delivery</button>
-            </form>
-        </div>
+            <button type="submit" class="review-btn">Submit Review</button>
+        </form>
     </div>
+</div>
 
-    <!-- REVIEW MODAL -->
-    <div id="reviewModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeReviewModal">&times;</span>
-            <h2>Write Review</h2>
+<!-- 🔥 MOBILE MENU SCRIPT -->
+<script>
+const menuToggle = document.getElementById("menuToggle");
+const navLinks = document.getElementById("navLinks");
 
-            <form id="reviewForm">
-                <input type="hidden" id="reviewOrderId">
+menuToggle.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+});
+</script>
 
-                <div class="rating" id="ratingStars">
-                    <i class="fas fa-star" data-rating="1"></i>
-                    <i class="fas fa-star" data-rating="2"></i>
-                    <i class="fas fa-star" data-rating="3"></i>
-                    <i class="fas fa-star" data-rating="4"></i>
-                    <i class="fas fa-star" data-rating="5"></i>
-                </div>
-
-                <textarea id="reviewText" placeholder="Share your experience..." required></textarea>
-
-                <button type="submit" class="review-btn">Submit Review</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- SCRIPTS -->
-    <script type="module" src="firebase.js"></script>
-    <script type="module" src="script.js"></script>
+<!-- SCRIPTS -->
+<script type="module" src="firebase.js"></script>
+<script type="module" src="script.js"></script>
 
 </body>
 </html>
