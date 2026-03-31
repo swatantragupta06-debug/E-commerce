@@ -2,13 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
+    <!-- ✅ MOBILE FIX -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ✅ SEO -->
+    <meta name="description" content="THE HARDOI STORE - Best shopping in Hardoi with fast delivery">
+    <meta name="keywords" content="Hardoi store, shopping Hardoi, online store Hardoi">
+
     <title>THE HARDOI STORE - Best Shopping in Hardoi</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- Font Awesome -->
+    <!-- Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 
@@ -23,14 +30,23 @@
         </div>
     </div>
 
-    <!-- Navbar -->
+    <!-- 🔥 NAVBAR -->
     <nav class="navbar">
         <div class="nav-container">
+
+            <!-- LOGO -->
             <div class="logo">
                 <h2>THE HARDOI STORE</h2>
             </div>
 
+            <!-- NAV LINKS -->
             <div class="nav-links">
+
+                <!-- ✅ SEARCH BAR ADDED -->
+                <div class="search-box">
+                    <input type="text" id="searchBar" placeholder="Search products...">
+                </div>
+
                 <a href="index.html" class="nav-link active">Home</a>
                 <a href="#" id="ordersLink" class="nav-link" style="display:none;">My Orders</a>
                 <a href="#" id="reviewsLink" class="nav-link" style="display:none;">Reviews</a>
@@ -38,10 +54,11 @@
                 <button id="loginBtn" class="login-btn">Login</button>
                 <button id="logoutBtn" class="logout-btn" style="display:none;">Logout</button>
             </div>
+
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- HERO -->
     <section class="hero">
         <div class="hero-content">
             <h1>Welcome to THE HARDOI STORE</h1>
@@ -50,7 +67,7 @@
         </div>
     </section>
 
-    <!-- Products Section -->
+    <!-- PRODUCTS -->
     <section class="products-section">
         <div class="container">
             <h2>Featured Products</h2>
@@ -58,7 +75,7 @@
         </div>
     </section>
 
-    <!-- Orders Section -->
+    <!-- ORDERS -->
     <section id="ordersSection" class="orders-section" style="display:none;">
         <div class="container">
             <h2>My Orders</h2>
@@ -66,7 +83,7 @@
         </div>
     </section>
 
-    <!-- Reviews Section -->
+    <!-- REVIEWS -->
     <section id="reviewsSection" class="reviews-section" style="display:none;">
         <div class="container">
             <h2>Customer Reviews</h2>
@@ -74,7 +91,7 @@
         </div>
     </section>
 
-    <!-- Order Modal -->
+    <!-- ORDER MODAL -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <span class="close" id="closeOrderModal">&times;</span>
@@ -97,7 +114,7 @@
         </div>
     </div>
 
-    <!-- Review Modal -->
+    <!-- REVIEW MODAL -->
     <div id="reviewModal" class="modal">
         <div class="modal-content">
             <span class="close" id="closeReviewModal">&times;</span>
@@ -121,9 +138,9 @@
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- SCRIPTS -->
     <script type="module" src="firebase.js"></script>
     <script type="module" src="script.js"></script>
 
 </body>
-                  </html>
+</html>
