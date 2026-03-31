@@ -16,7 +16,13 @@ import {
   serverTimestamp
 } from './firebase.js';
 
+import {
+  GoogleAuthProvider,
+  signInWithPopup
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+
 let currentUser = null;
+let allProducts = [];
 
 // ================= INIT =================
 onAuthStateChanged(auth, (user) => {
@@ -34,32 +40,27 @@ onAuthStateChanged(auth, (user) => {
 // ================= LOGIN =================
 function initLogin() {
 
+  // CUSTOMER LOGIN
   document.getElementById("loginForm")?.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const email = loginEmail.value;
-    const password = loginPassword.value;
-
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value);
       window.location.href = "index.html";
     } catch {
       showError("Invalid login");
     }
   });
 
+  // SIGNUP
   document.getElementById("signupForm")?.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const email = signupEmail.value;
-    const password = signupPassword.value;
-    const name = signupName.value;
-
     try {
-      const user = await createUserWithEmailAndPassword(auth, email, password);
+      const user = await createUserWithEmailAndPassword(auth, signupEmail.value, signupPassword.value);
 
       await addDoc(collection(db, "users"), {
         uid: user.user.uid,
-        name,
-        email,
+        name: signupName.value,
+        email: signupEmail.value,
         ordersCount: 0
       });
 
@@ -69,23 +70,42 @@ function initLogin() {
     }
   });
 
+  // 🔥 ADMIN LOGIN FIXED
   document.getElementById("adminLoginForm")?.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const email = adminEmail.value;
+    const email = adminEmail.value.trim().toLowerCase();
     const password = adminPassword.value;
 
-    if (email !== "swatantragupta06@gmail.com" || password !== "Swatantra@9935") {
-      showError("Access Denied");
-      return;
-    }
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
 
-    await signInWithEmailAndPassword(auth, email, password);
-    window.location.href = "admin.html";
+      if (email !== "swatantragupta06@gmail.com") {
+        showError("Access Denied");
+        await signOut(auth);
+        return;
+      }
+
+      window.location.href = "admin.html";
+    } catch {
+      showError("Admin login failed");
+    }
+  });
+
+  // 🔥 GOOGLE LOGIN
+  const provider = new GoogleAuthProvider();
+
+  document.getElementById("googleLogin")?.addEventListener("click", async () => {
+    try {
+      await signInWithPopup(auth, provider);
+      window.location.href = "index.html";
+    } catch {
+      showError("Google login failed");
+    }
   });
 }
 
-// ================= MAIN PAGE =================
+// ================= MAIN =================
 function initMain() {
 
   document.getElementById("loginBtn")?.addEventListener("click", () => {
@@ -102,6 +122,13 @@ function initMain() {
   if (currentUser) {
     loadOrders();
   }
+
+  // 🔍 SEARCH BAR
+  document.getElementById("searchBar")?.addEventListener("input", (e) => {
+    const value = e.target.value.toLowerCase();
+    const filtered = allProducts.filter(p => p.name.toLowerCase().includes(value));
+    renderProducts(filtered);
+  });
 }
 
 // ================= PRODUCTS =================
@@ -110,17 +137,28 @@ async function loadProducts() {
   if (!container) return;
 
   const snapshot = await getDocs(collection(db, "products"));
-  container.innerHTML = "";
+  allProducts = [];
 
   snapshot.forEach(docSnap => {
     const p = docSnap.data();
+    p.id = docSnap.id;
+    allProducts.push(p);
+  });
 
+  renderProducts(allProducts);
+}
+
+function renderProducts(products) {
+  const container = document.getElementById("productsContainer");
+  container.innerHTML = "";
+
+  products.forEach(p => {
     container.innerHTML += `
       <div class="product-card">
         <img src="${p.image}" class="product-image">
         <h3>${p.name}</h3>
         <p class="product-price">₹${p.price}</p>
-        <button class="buy-btn" onclick="openOrder('${docSnap.id}','${p.name}',${p.price})">Buy</button>
+        <button class="buy-btn" onclick="openOrder('${p.id}','${p.name}',${p.price})">Buy</button>
       </div>
     `;
   });
@@ -137,9 +175,7 @@ window.openOrder = function(id, name, price) {
 document.getElementById("orderForm")?.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const phone = customerPhone.value;
-
-  if (phone.length !== 10) {
+  if (customerPhone.value.length !== 10) {
     alert("Enter valid phone");
     return;
   }
@@ -149,9 +185,9 @@ document.getElementById("orderForm")?.addEventListener("submit", async (e) => {
     return;
   }
 
-  const userSnap = await getDocs(query(collection(db, "users"), where("uid", "==", currentUser.uid)));
   let deliveryCharge = 0;
 
+  const userSnap = await getDocs(query(collection(db, "users"), where("uid", "==", currentUser.uid)));
   userSnap.forEach(u => {
     deliveryCharge = u.data().ordersCount === 0 ? 0 : 20;
   });
@@ -159,7 +195,7 @@ document.getElementById("orderForm")?.addEventListener("submit", async (e) => {
   await addDoc(collection(db, "orders"), {
     userId: currentUser.uid,
     name: customerName.value,
-    phone,
+    phone: customerPhone.value,
     address: customerAddress.value,
     city: customerCity.value,
     productName: selectedProductName.value,
@@ -173,7 +209,7 @@ document.getElementById("orderForm")?.addEventListener("submit", async (e) => {
   location.reload();
 });
 
-// ================= LOAD ORDERS =================
+// ================= USER ORDERS =================
 async function loadOrders() {
   const container = document.getElementById("ordersContainer");
   if (!container) return;
@@ -247,9 +283,7 @@ async function loadAdminProducts() {
     list.innerHTML += `
       <div class="admin-product">
         <span>${p.name} - ₹${p.price}</span>
-        <div>
-          <button onclick="deleteProduct('${docSnap.id}')">Delete</button>
-        </div>
+        <button onclick="deleteProduct('${docSnap.id}')">Delete</button>
       </div>
     `;
   });
@@ -275,9 +309,8 @@ async function loadAdminOrders() {
       <div class="order-card">
         <p>${o.name} - ${o.productName}</p>
         <p>${o.phone}</p>
-        <button onclick="deliver('${docSnap.id}')">Mark Delivered</button>
+        <button onclick="deliver('${docSnap.id}')">Delivered</button>
         <button onclick="cancelOrder('${docSnap.id}')">Cancel</button>
-        <button onclick="window.open('order-slip.html?id=${docSnap.id}')">Print</button>
       </div>
     `;
   });
@@ -297,4 +330,4 @@ function showError(msg) {
   } else {
     alert(msg);
   }
-      }
+}
