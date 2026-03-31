@@ -40,7 +40,6 @@ onAuthStateChanged(auth, (user) => {
 // ================= LOGIN =================
 function initLogin() {
 
-  // CUSTOMER LOGIN
   document.getElementById("loginForm")?.addEventListener("submit", async (e) => {
     e.preventDefault();
     try {
@@ -51,7 +50,6 @@ function initLogin() {
     }
   });
 
-  // SIGNUP
   document.getElementById("signupForm")?.addEventListener("submit", async (e) => {
     e.preventDefault();
     try {
@@ -70,7 +68,7 @@ function initLogin() {
     }
   });
 
-  // 🔥 ADMIN LOGIN FIXED
+  // ✅ ADMIN LOGIN FIXED
   document.getElementById("adminLoginForm")?.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -92,7 +90,7 @@ function initLogin() {
     }
   });
 
-  // 🔥 GOOGLE LOGIN
+  // ✅ GOOGLE LOGIN
   const provider = new GoogleAuthProvider();
 
   document.getElementById("googleLogin")?.addEventListener("click", async () => {
@@ -123,12 +121,22 @@ function initMain() {
     loadOrders();
   }
 
-  // 🔍 SEARCH BAR
+  // 🔍 SEARCH
   document.getElementById("searchBar")?.addEventListener("input", (e) => {
     const value = e.target.value.toLowerCase();
     const filtered = allProducts.filter(p => p.name.toLowerCase().includes(value));
     renderProducts(filtered);
   });
+
+  // ✅ MOBILE MENU TOGGLE (FINAL FIX)
+  const menuToggle = document.getElementById("menuToggle");
+  const navLinks = document.getElementById("navLinks");
+
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+    });
+  }
 }
 
 // ================= PRODUCTS =================
@@ -330,4 +338,4 @@ function showError(msg) {
   } else {
     alert(msg);
   }
-}
+      }
